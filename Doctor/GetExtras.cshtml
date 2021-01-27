@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Green.Models.MedicineViewModel>
+
+<div class="container">
+    <br />
+    <div class="row">
+        @Html.Hidden("id")
+        <div class="col-sm-4">
+              @if (ViewBag.VehicleModel != null)
+        {
+            @Html.Partial("_VehicleDetails", (Green.Models.Patient)ViewBag.VehicleModel)
+        }
+
+        </div>
+        <div class="col-md-8">
+            <h3>Medicine(s)</h3> <br />
+            <table class="table">
+                <tr>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.ImageUri)
+                    </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.itemName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.form)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Selected)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @*<td>
+                            <img src="~/Images/@item.ImageUri" style="width:60px;height:60px" alt="user image" class="online" />
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.itemName)
+                        </td>
+                        <td>
+                            @item.form
+                        </td>
+                        <td>
+                            @(item.Selected == true ? "Added" : "Not added")
+                        </td>
+
+                        <td>
+                            @if (!item.Selected)
+                            {
+                                <a href="#" class="btn btn-success btn-sm" onclick="addItem('@(item.Id),@(item.prescriptionId)')"><span style="color:white!important" class='glyphicon glyphicon-plus'></span></a>
+
+                            }
+                            else
+                            {
+                                <a href="#" class="btn btn-danger btn-sm" onclick="deleteItem('@(item.Id),@(item.prescriptionId)')"><span style="color:white!important" class='glyphicon glyphicon-minus'></span></a>
+
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addItem(id) {
+        $.ajax({
+            type: "Get",
+            url: "@Url.Action("AddExtra")?id=" + id,
+            async: true,
+            contentType: "application/json; charset=utf-8",
+
+                dataType: "json",
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (e) {
+                    return;
+                }
+            });
+    }
+     function deleteItem(id) {
+         $.ajax({
+                type: "Get",
+                url: "@Url.Action("RemoveExtra")?id=" + id,
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (e) {
+                    return;
+                }
+            });
+    }
+</script>
