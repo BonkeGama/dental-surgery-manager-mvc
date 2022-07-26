@@ -1,1 +1,1 @@
-Hospital ManagementMaster
+HospitalManagementMaster
