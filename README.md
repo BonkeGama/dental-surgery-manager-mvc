@@ -1,2 +1,1 @@
-# Green-Hospital-management
-Hospital management
+Hospital ManagementMaster
